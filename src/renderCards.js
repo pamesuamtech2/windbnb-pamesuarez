@@ -1,3 +1,4 @@
+let dataStay = [];
 import { adultsTotal, childrenTotal } from './guestMenu.js';
 let stayContainer = document.querySelector("#productId"); 
 
@@ -52,7 +53,7 @@ function showCards(stays){
 
 // Starting Function 
    export default async function renderCards() {
-    let dataStay = await bringStaysData();
+    dataStay = await bringStaysData();
     let filtro = document.querySelector("#inputFilter");
     
     if (dataStay) {
@@ -71,15 +72,15 @@ function showCards(stays){
             showCards(locationFiltered); 
         });
     }}
-    //Turning the OKAY button into a search trigger
-
+ // Turning the OKAY/UPDATE button into a search trigger
     let btnOkay = document.querySelector("#hideMenu");
     if (btnOkay) {
-    btnOkay.addEventListener("click", () => {
-        let totalGuestsWanted = adultsTotal + childrenTotal;
-        
-        let guestsFiltered = dataStay.filter(stay => stay.maxGuests >= totalGuestsWanted);
-
-        showCards(guestsFiltered);
-    });
-}
+        btnOkay.addEventListener("click", () => {
+            let adults = parseInt(document.querySelector("#adultCount").textContent) || 0;
+            let children = parseInt(document.querySelector("#childCount").textContent) || 0;
+            let totalGuestsWanted = adults + children;
+            
+            let guestsFiltered = dataStay.filter(stay => stay.maxGuests >= totalGuestsWanted);
+            showCards(guestsFiltered);
+        });
+    }
